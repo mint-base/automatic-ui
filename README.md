@@ -1,2 +1,0 @@
-# automatic-ui
-Fast release 
