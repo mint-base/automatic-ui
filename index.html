@@ -1,477 +1,155 @@
 <!DOCTYPE html>
-<html lang="si">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>USDT PAYMENT REFUND</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Banking Dashboard</title>
   <style>
-    :root{
-      --bg:#0b0f1a;
-      --accent:#f3ba2f;
-      --card:#0b0f1a;
-      --panel:#1a1f2b;
-      --muted:#ccc;
-      --white:#ffffff;
-      --danger:#ff6b6b;
-    }
-    *{box-sizing:border-box}
     body {
+      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-      background-color: var(--bg);
-      color: var(--white);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      position: relative;
-      -webkit-font-smoothing:antialiased;
-      -moz-osx-font-smoothing:grayscale;
+      background: #f4f6f9;
+      color: #333;
     }
-    .app {
-      background-color: var(--card);
-      width: 100%;
-      max-width: 420px;
-      padding: 28px;
-      border-radius: 14px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 40px rgba(243,186,47,0.03);
+    .container {
+      max-width: 400px;
+      margin: auto;
+      padding: 20px;
     }
-    .header {
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      margin-bottom:18px;
-    }
-    .logo {
-      font-size:1.4rem;
-      font-weight:700;
-      color:var(--accent);
-      letter-spacing:1px;
-    }
-    .meta {
-      text-align:right;
-      font-size:0.95rem;
-      color:var(--muted);
-    }
-    .amount {
-      text-align:center;
-      font-size:1.9rem;
-      font-weight:700;
-      margin: 6px 0 4px;
-    }
-    .network {
-      text-align:center;
-      font-size:0.95rem;
-      color:var(--muted);
-      margin-bottom:18px;
-    }
-
     .card {
-      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-      border-radius:12px;
-      padding:14px;
-      margin-bottom:20px;
-      border: 1px solid rgba(255,255,255,0.03);
-    }
-    .label {
-      font-weight:700;
-      color:var(--accent);
-      font-size:0.85rem;
-      margin-bottom:6px;
-    }
-    .value {
-      color:var(--white);
-      font-size:0.98rem;
-      word-break:break-word;
-    }
-
-    .input {
-      width:100%;
-      padding:10px 12px;
-      border-radius:8px;
-      border:1px solid rgba(255,255,255,0.06);
-      background:var(--panel);
-      color:var(--white);
-      font-size:0.95rem;
-      outline:none;
-    }
-    .input:focus { box-shadow: 0 0 0 4px rgba(243,186,47,0.08); border-color: rgba(243,186,47,0.25); }
-
-    .helper { font-size:0.85rem; color:var(--muted); margin-top:6px; }
-
-    .slider-container {
-      background-color: #ffffff;
-      border-radius: 50px;
-      position: relative;
-      height: 56px;
-      width: 100%;
+      background: linear-gradient(135deg, #004aad, #00c6ff);
+      color: white;
+      border-radius: 15px;
+      padding: 20px;
       margin-bottom: 20px;
-      overflow: hidden;
-      touch-action: pan-y;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
-    .slider-track {
-      position: absolute;
-      top: 0;
-      left: 0;
-      height: 100%;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #0b0f1a;
-      font-weight:700;
-      z-index: 1;
-      user-select: none;
-      pointer-events: none;
+    .card h2 {
+      margin: 0;
+      font-size: 18px;
     }
-    .slider-thumb {
-      position: absolute;
-      top: 6px;
-      left: 6px;
-      height: calc(100% - 12px);
-      width: 56px;
-      background-color: var(--accent);
-      border-radius: 50px;
+    .card p {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    .balance {
+      font-size: 24px;
+      font-weight: bold;
+      margin-top: 10px;
+    }
+    .actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+    .action-btn {
+      background: white;
+      border: none;
+      border-radius: 10px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
       cursor: pointer;
-      z-index: 2;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: left 300ms ease;
-      user-select: none;
-      touch-action: none;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.45), 0 2px 6px rgba(0,0,0,0.2);
-      font-weight:700;
-      color:#0b0f1a;
+      transition: transform 0.2s ease;
     }
-
-    .section { display:none; margin-bottom:16px; }
-    .section.active { display:block; }
-
-    .button {
-      background-color: var(--accent);
-      color: #0b0f1a;
-      padding: 12px 14px;
+    .action-btn:hover {
+      transform: scale(1.05);
+    }
+    .accounts {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+    }
+    .modal {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.5);
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+    .modal-content {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      text-align: center;
+      max-width: 300px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    .modal-content h3 {
+      margin-top: 0;
+    }
+    .modal-content button {
+      margin: 10px;
+      padding: 10px 20px;
       border: none;
       border-radius: 8px;
-      width: 100%;
-      font-size: 1rem;
-      font-weight: 700;
       cursor: pointer;
-      margin-top: 12px;
     }
-    .button:disabled { background:#cccccc; color:#666666; cursor:not-allowed; }
-
-    .error {
-      color: var(--danger);
-      font-weight:700;
-      margin-top:12px;
-      text-align:center;
+    .activate-btn {
+      background-color: #004aad;
+      color: white;
     }
-    .address-box {
-      background-color: var(--panel);
-      padding:10px;
-      border-radius:8px;
-      text-align:center;
-      font-size:0.95rem;
-      margin-top:10px;
-      word-break:break-word;
-      color:var(--white);
-      border:1px solid rgba(255,255,255,0.03);
+    .cancel-btn {
+      background-color: #ccc;
     }
-    .support-button {
-      position: fixed;
-      top: 18px;
-      right: 18px;
-      background-color: var(--accent);
-      color: #0b0f1a;
-      padding: 10px 14px;
-      border-radius: 8px;
-      font-weight:700;
-      text-decoration: none;
-      box-shadow: 0 6px 24px rgba(243,186,47,0.08);
-      z-index: 999;
+    .spinner {
+      display: none;
+      margin-top: 10px;
     }
-
-    /* small helpers */
-    h3 { margin:8px 0 10px; font-size:1.05rem; }
-    p { margin:8px 0; color:var(--white); opacity:0.95; }
-    .muted { color:var(--muted); font-size:0.9rem; }
-    .row { display:flex; gap:12px; }
-    .col { flex:1; }
   </style>
 </head>
 <body>
-  <a href="https://widget-page.smartsupp.com/widget/f659c5b3d565aafa73ba3a49d4ce0baf57cea73b?ss-chat-settings" class="support-button">ආධාරය සම්බන්ධ කරන්න</a>
-
-  <div class="app" role="main" aria-labelledby="pageTitle">
-    <div class="header">
-      <div class="logo" id="pageTitle">BINANCE</div>
-      <div class="meta">
-        <div style="font-weight:700">ප්‍රවර්ගය: වෘත්තීය</div>
-        <div class="muted">ආරක්ෂිත ගනුදෙනු</div>
-      </div>
-    </div>
-
-    <div class="amount">3,000 USDT</div>
-    <div class="network">ජාලය: TRC20</div>
-
+  <div class="container">
     <div class="card">
-      <div class="label">කෙටි විස්තර</div>
-      <div class="value">ඔබගේ ඉල්ලීම වෘත්තීය ක්‍රමවේදය යටතේ සැකසෙයි. කරුණාකර ලැබෙන ලිපිනය පහතින් ඇතුලත් කරන්න. ගාස්තු: <strong>103 USDT</strong> — (ශ්‍රී ලංකා බ්ලොක්චේන් ප්‍රතිසාධන බලපත්‍රය / "Sirilanka Blockchain Recovery Licence").</div>
-      <div class="helper">සාර්ථක තැන්පතු කිරීමෙන් පසු මුදල් 10 තත්පර තුළ ක්ෂණිකව නිකුත් වේ (immediate release within 10 seconds after successful deposit).</div>
+      <h2>Hi Rifshan!</h2>
+      <p>Mastercard Debit - 5371 51xx xxxx 3036</p>
+      <div class="balance">LKR 70,000.00</div>
     </div>
 
-    <!-- Slide to confirm -->
-    <div class="slider-container" id="slider" aria-label="තහවුරු කිරීමට ස්ලයිඩ් කරන්න" role="group">
-      <div class="slider-track" id="sliderTrack">තහවුරු කිරීමට ස්ලයිඩ් කරන්න</div>
-      <div class="slider-thumb" id="thumb" role="button" tabindex="0" aria-pressed="false" aria-label="තහවුරු කිරීමට ස්ලයිඩ් කරන්න">→</div>
+    <div class="actions">
+      <button class="action-btn" onclick="handleClick()">Top-Up</button>
+      <button class="action-btn" onclick="handleClick()">Send Money</button>
+      <button class="action-btn" onclick="handleClick()">Transfer</button>
+      <button class="action-btn" onclick="handleClick()">Mobile Payment</button>
+      <button class="action-btn" onclick="handleClick()">Bill Payment</button>
+      <button class="action-btn" onclick="handleClick()">Card Payment</button>
     </div>
 
-    <!-- Preview (now requires user to input receiving address) -->
-    <div class="section" id="preview">
-      <h3>ගනුදෙනු පෙරදසුන</h3>
+    <div class="accounts">Accounts Balance: LKR 70,000.00</div>
 
-      <div class="label">ලැබෙන ලිපිනය (ඔබටම ඇතුළත් කරන්න)</div>
-      <input id="recipientInput" class="input" type="text" placeholder="TS... හෝ ඔබගේ ලිපිනය මෙහි ඇතුලත් කරන්න" aria-label="ලැබෙන ලිපිනය ඇතුලත් කරන්න" />
-      <div id="recipientError" class="helper" style="color:var(--danger);display:none;">කරුණාකර වලංගු ලිපිනයක් ඇතුලත් කරන්න.</div>
-
-      <div style="display:flex;gap:12px;margin-top:12px;">
-        <div style="flex:1">
-          <div class="label">මුළු මුදල</div>
-          <div class="value">3,000 USDT</div>
-        </div>
-        <div style="flex:1">
-          <div class="label">ගාස්තුව</div>
-          <div class="value">103 USDT <div class="muted" style="font-size:0.85rem;margin-top:4px;">(ශ්‍රී ලංකා බ්ලොක්චේන් ප්‍රතිසාධන බලපත්‍රය)</div></div>
-        </div>
+    <div class="modal" id="activationModal">
+      <div class="modal-content">
+        <h3>🔒 Activation Required</h3>
+        <p>To activate this feature, a one-time payment of <strong>$50 USDT</strong> is required.</p>
+        <button class="activate-btn">Activate Now</button>
+        <button class="cancel-btn" onclick="closeModal()">Cancel</button>
       </div>
-
-      <button id="startBtn" class="button" onclick="startProcessing()" disabled>ඉවත් කිරීම ක්‍රියාත්මක කරන්න</button>
     </div>
 
-    <!-- Processing -->
-    <div class="section" id="processing">
-      <h3>සියලුම මට්ටමින් සකස් කිරීම</h3>
-      <p>කරුණාකර ඉවසන්න. ඔබගේ ගෙවීම ආරක්ෂිතව ගිණුමට ඇතුළත් වේ. සාර්ථක තැන්පතුවක් හඳුනාගත් විගස, මුදල් 10 තත්පර තුළ කඩිනමින් නිකුත් කෙරේ.</p>
-      <p id="timer" class="muted">ශේෂිත කාලය: 0:40</p>
-    </div>
-
-    <!-- Received -->
-    <div class="section" id="received">
-      <h3>ගෙවීම් තත්ත්වය</h3>
-      <p class="muted">ඔබගේ ගෙවීම ලැබුණු බවට තහවුරු කිරීමට පහත බොත්තම භාවිතා කරන්න.</p>
-      <button class="button" id="receivedBtn" disabled>මට ලැබී ඇත</button>
-    </div>
-
-    <!-- Error / Pay Now -->
-    <div class="section" id="error">
-      <div class="error">⚠️ ඉවත් කිරීමේ දෝෂය: ප්‍රමාණවත් බැන්ඩ්විත් / පසුබැසීමක්</div>
-      <p class="value">සාර්ථක නිකුත් කිරීමට සහ ශ්‍රී ලංකා බ්ලොක්චේන් ප්‍රතිසාධන බලපත්‍රය සඳහා අවශ්‍ය ගාස්තුව: <strong>103 USDT</strong>.</p>
-      <p class="value">ගෙවීම සාර්ථකව ක්‍රියාත්මක වන විට, මුදල් 10 තත්පර තුළ නිදහස් කරනු ලැබේ.</p>
-
-      <div class="label">ගෙවීම් සඳහා ලිපිනය</div>
-      <div class="address-box">TEUh5LumZf8UDhGhZNbSmSKwQ6945cvx7o</div>
-
-      <button class="button">දැන් ගෙවන්න</button>
+    <div class="spinner" id="spinner">
+      <p>Loading...</p>
     </div>
   </div>
 
   <script>
-    const slider = document.getElementById('slider');
-    const thumb = document.getElementById('thumb');
-    const track = document.getElementById('sliderTrack');
-
-    const previewSection = document.getElementById('preview');
-    const recipientInput = document.getElementById('recipientInput');
-    const recipientError = document.getElementById('recipientError');
-    const startBtn = document.getElementById('startBtn');
-
-    let dragging = false;
-    let confirmed = false;
-    let startPointerX = 0;
-    let thumbStartLeft = 0;
-
-    function clamp(val, min, max){ return Math.max(min, Math.min(max, val)); }
-
-    function getBounds(){
-      const rect = slider.getBoundingClientRect();
-      const thumbRect = thumb.getBoundingClientRect();
-      const minLeft = 6;
-      const maxLeft = rect.width - thumbRect.width - 6;
-      return { rect, thumbRect, minLeft, maxLeft };
+    function handleClick() {
+      const spinner = document.getElementById('spinner');
+      spinner.style.display = 'block';
+      setTimeout(() => {
+        spinner.style.display = 'none';
+        document.getElementById('activationModal').style.display = 'flex';
+      }, 3000);
     }
 
-    function setThumbLeft(x, animate = false){
-      if (animate) thumb.style.transition = 'left 300ms ease';
-      else thumb.style.transition = 'none';
-      thumb.style.left = x + 'px';
-    }
-
-    function animateThumbTo(x, cb){
-      setThumbLeft(x, true);
-      const onEnd = () => {
-        thumb.removeEventListener('transitionend', onEnd);
-        if (cb) cb();
-      };
-      thumb.addEventListener('transitionend', onEnd);
-    }
-
-    function confirmSlide(){
-      if (confirmed) return;
-      confirmed = true;
-      thumb.setAttribute('aria-pressed', 'true');
-      slider.style.display = 'none';
-      // show preview where user must input their address
-      previewSection.classList.add('active');
-      // focus the recipient input for convenience
-      setTimeout(() => recipientInput.focus(), 300);
-    }
-
-    function resetThumb(){
-      const { minLeft } = getBounds();
-      animateThumbTo(minLeft);
-    }
-
-    // Pointer events to handle drag for mouse/touch/stylus
-    thumb.addEventListener('pointerdown', (e) => {
-      if (confirmed) return;
-      dragging = true;
-      thumb.setPointerCapture(e.pointerId);
-      thumbStartLeft = parseFloat(thumb.style.left) || getBounds().minLeft;
-      startPointerX = (e.clientX !== undefined) ? e.clientX : (e.touches && e.touches[0].clientX);
-      thumb.style.transition = 'none';
-    });
-
-    document.addEventListener('pointermove', (e) => {
-      if (!dragging || confirmed) return;
-      const { minLeft, maxLeft } = getBounds();
-      const clientX = e.clientX;
-      let delta = clientX - startPointerX;
-      let newLeft = clamp(thumbStartLeft + delta, minLeft, maxLeft);
-      setThumbLeft(newLeft, false);
-
-      if (newLeft >= maxLeft - 6) {
-        dragging = false;
-        animateThumbTo(maxLeft, () => confirmSlide());
-      }
-    });
-
-    document.addEventListener('pointerup', (e) => {
-      if (!dragging || confirmed) return;
-      dragging = false;
-      const { minLeft, maxLeft } = getBounds();
-      const left = parseFloat(thumb.style.left) || minLeft;
-      const threshold = maxLeft * 0.66; // 66% confirmation threshold
-      if (left >= threshold) {
-        animateThumbTo(maxLeft, () => confirmSlide());
-      } else {
-        resetThumb();
-      }
-    });
-
-    // Tap on track to quickly confirm
-    track.addEventListener('pointerdown', (e) => {
-      if (confirmed) return;
-      if (e.target === thumb) return;
-      const { maxLeft } = getBounds();
-      animateThumbTo(maxLeft, () => confirmSlide());
-    });
-
-    // Keyboard support
-    thumb.addEventListener('keydown', (e) => {
-      if (confirmed) return;
-      const { minLeft, maxLeft } = getBounds();
-      const step = 20;
-      let left = parseFloat(thumb.style.left) || minLeft;
-      if (e.key === 'ArrowRight') {
-        left = clamp(left + step, minLeft, maxLeft);
-        setThumbLeft(left, true);
-      } else if (e.key === 'ArrowLeft') {
-        left = clamp(left - step, minLeft, maxLeft);
-        setThumbLeft(left, true);
-      } else if (e.key === 'Enter' || e.key === ' ') {
-        animateThumbTo(maxLeft, () => confirmSlide());
-      }
-
-      if (left >= maxLeft - 6) {
-        animateThumbTo(maxLeft, () => confirmSlide());
-      }
-    });
-
-    // Initialize position
-    function initThumb(){
-      const { minLeft } = getBounds();
-      setThumbLeft(minLeft, false);
-    }
-    window.addEventListener('resize', () => { if (!confirmed) initThumb(); });
-    initThumb();
-
-    // Validate recipient input and enable start button
-    function isProbablyAddress(s) {
-      if (!s) return false;
-      const t = s.trim();
-      // basic sanity: length between 10 and 80 and no spaces
-      return t.length >= 10 && t.length <= 80 && !/\s/.test(t);
-    }
-    recipientInput.addEventListener('input', () => {
-      const ok = isProbablyAddress(recipientInput.value);
-      startBtn.disabled = !ok;
-      recipientError.style.display = ok ? 'none' : 'none';
-    });
-
-    // Flow: preview -> processing -> received -> error
-    function startProcessing(){
-      // final validation
-      const address = recipientInput.value.trim();
-      if (!isProbablyAddress(address)) {
-        recipientError.style.display = 'block';
-        recipientError.textContent = 'කරුණාකර වලංගු ලිපිනයක් ඇතුලත් කරන්න.';
-        return;
-      }
-      recipientError.style.display = 'none';
-
-      document.getElementById('preview').classList.remove('active');
-      document.getElementById('processing').classList.add('active');
-
-      // Simulate network processing; show timer (kept at 40s to simulate verification)
-      let time = 40;
-      const timerEl = document.getElementById('timer');
-      const interval = setInterval(() => {
-        let seconds = time;
-        timerEl.textContent = `ශේෂිත කාලය: 0:${seconds < 10 ? '0' : ''}${seconds}`;
-        time--;
-        if (time < 0) {
-          clearInterval(interval);
-          // After verification: the system will release funds automatically within 10 seconds of successful deposit.
-          document.getElementById('processing').classList.remove('active');
-          document.getElementById('received').classList.add('active');
-          enableReceivedButton(); // enable after 10s to reflect immediate release window
-        }
-      }, 1000);
-    }
-
-    function enableReceivedButton(){
-      let countdown = 10;
-      const btn = document.getElementById('receivedBtn');
-      btn.textContent = `මට ලැබී ඇත (${countdown})`;
-      const interval = setInterval(() => {
-        countdown--;
-        btn.textContent = `මට ලැබී ඇත (${countdown})`;
-        if (countdown <= 0) {
-          clearInterval(interval);
-          btn.disabled = false;
-          btn.textContent = 'මට ලැබී ඇත';
-          btn.onclick = showError; // in this mock flow, clicking leads to the next state
-        }
-      }, 1000);
-    }
-
-    function showError(){
-      // In a real integration this would check the actual blockchain/payment status.
-      document.getElementById('received').classList.remove('active');
-      document.getElementById('error').classList.add('active');
+    function closeModal() {
+      document.getElementById('activationModal').style.display = 'none';
     }
   </script>
 </body>
